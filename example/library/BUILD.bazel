@@ -1,0 +1,9 @@
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "math",
+    hdrs = ["math.h"],
+    # Generates a _virtual_includes directory.
+    # This library will need to be built prior to clangd looking at main.cpp for it to find the correct header.
+    include_prefix = ".",
+)

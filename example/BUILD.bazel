@@ -1,0 +1,13 @@
+# Checking to see if this method of generating compile_commands.json fixes the bug mentioned here:
+# https://github.com/jemeador/bazel-compile-commands-extractor-bazel-6-include-prefix-bug
+# It seems to work, as long as you have built the outputs of the library target first.
+cc_binary(
+    name = "main",
+    srcs = ["main.cc"],
+    deps = ["//library:math"],
+)
+
+alias(
+    name = "generate_compile_commands",
+    actual = "@bazel_compile_commands//:generate_compile_commands",
+)

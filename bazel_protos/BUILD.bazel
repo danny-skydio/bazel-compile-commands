@@ -1,0 +1,11 @@
+load("@rules_python//python:defs.bzl", "py_library")
+
+py_library(
+    name = "bazel_protos",
+    srcs = [
+        "analysis_v2_pb2.py",
+        "build_pb2.py",
+    ],
+    visibility = ["//visibility:public"],
+    deps = ["@com_google_protobuf//:protobuf_python"],
+)
