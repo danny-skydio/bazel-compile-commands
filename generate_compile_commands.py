@@ -313,19 +313,19 @@ if __name__ == "__main__":
     parser.add_argument(
         "--extra_aquery_arg",
         help="Extra argument to pass to aquery (can be used multiple times)",
-        nargs="+",
+        action="append",
         default=[],
     )
     parser.add_argument(
         "--exclude_system_include",
         help="Filter out '-isystem' arguments with this value (can be used multiple times)",
-        nargs="+",
+        action="append",
         default=[],
     )
     parser.add_argument(
         "--exclude_compile_arg",
         help="Filter out this compile argument from output (can be used multiple times)",
-        nargs="+",
+        action="append",
         default=[],
     )
     args = parser.parse_args()
