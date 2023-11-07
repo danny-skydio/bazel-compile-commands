@@ -35,6 +35,12 @@ rules_proto_dependencies()
 rules_proto_toolchains()
 ```
 
+The way the script is set up requires you to have your outputs be mapped into a folder called `build`. In .bazelrc:
+```
+# Move build artifacts to the build directory
+build --symlink_prefix=build/bazel-
+```
+
 If you're using the [VS Code clangd plugin](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd), in .vscode/settings.json:
 ```
   "clangd.arguments": [
