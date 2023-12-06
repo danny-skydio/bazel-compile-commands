@@ -9,9 +9,9 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "bazel_compile_commands",
-    sha256 = "5156fcba061198ea649ecc95762ef228c4b1b49c8cdf9197810e1b8112a1033a",
-    strip_prefix = "bazel-compile-commands-f769e151d5784ec6645be08c43bf869acea800ef",
-    urls = ["https://github.com/danny-skydio/bazel-compile-commands/archive/f769e151d5784ec6645be08c43bf869acea800ef.tar.gz"],
+    sha256 = "2505ca4a14aa6a9a6da08e4e0ec2409d00a2f57dc79086b3fe1d4ba0b136afd5",
+    strip_prefix = "bazel-compile-commands-67fb28bbca6b7caf99e3d0d4844dd5ddf269c047",
+    urls = ["https://github.com/danny-skydio/bazel-compile-commands/archive/67fb28bbca6b7caf99e3d0d4844dd5ddf269c047.tar.gz"],
 )
 
 load("@bazel_compile_commands//:deps.bzl", "bazel_compile_commands_dependencies")
