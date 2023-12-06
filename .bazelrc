@@ -1,2 +1,0 @@
-# Move build artifacts to the build directory
-build --symlink_prefix=build/bazel-

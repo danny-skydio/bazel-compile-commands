@@ -35,17 +35,9 @@ rules_proto_dependencies()
 rules_proto_toolchains()
 ```
 
-The way the script is set up requires you to have your outputs be mapped into a folder called `build`. In .bazelrc:
-```
-# Move build artifacts to the build directory
-build --symlink_prefix=build/bazel-
-```
-
-If you're using the [VS Code clangd plugin](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd), in .vscode/settings.json:
+If you're using the [VS Code clangd plugin](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd), you may want to experiment with this option in .vscode/settings.json:
 ```
   "clangd.arguments": [
-    // Remap go-to-definition paths out of the clangd_execroot folder.
-    "--path-mappings=${workspaceFolder}/build/bazel-out=${workspaceFolder}/build/clangd_execroot/bazel-out,${workspaceFolder}/build/bazel-out/../../../external=${workspaceFolder}/build/clangd_execroot/external,${workspaceFolder}=${workspaceFolder}/build/clangd_execroot",
     // Allow clangd to execute your compiler to find system headers. I've seen strange errors when this is enabled, so it might be worth trying without it.
     "--query-driver=/**"
   ],

@@ -33,9 +33,7 @@ Munger = T.Callable[[T.Sequence[str]], T.List[str]]
 
 
 def main(query: str, extra_aquery_args: T.List[str], munge_command_line: Munger) -> None:
-    # TODO(danny): make this configurable
-    execroot = BUILD_WORKSPACE_DIRECTORY / "build" / "clangd_execroot"
-    generate_exec_root(execroot)
+    exec_root = generate_exec_root()
 
     print("Running aquery...", file=sys.stderr)
     aquery_output = run_aquery(f"deps({query})", extra_args=extra_aquery_args)
@@ -44,7 +42,7 @@ def main(query: str, extra_aquery_args: T.List[str], munge_command_line: Munger)
 
     # TODO(danny): relative paths should work, but the VSCode clangd plugin doesn't work right
     # if it finds compile_commands.json in a subdirectory (e.g. the example in this project).
-    absolute_execroot = str(execroot.absolute())
+    absolute_exec_root = str(exec_root.absolute())
     with open(BUILD_WORKSPACE_DIRECTORY / "compile_commands.json", "w") as f:
         f.write("[\n")
         wrote_output = False
@@ -57,7 +55,7 @@ def main(query: str, extra_aquery_args: T.List[str], munge_command_line: Munger)
                     {
                         "file": compile_command.path,
                         "arguments": compile_command.args,
-                        "directory": absolute_execroot,
+                        "directory": absolute_exec_root,
                     }
                 )
             )
@@ -68,23 +66,14 @@ def main(query: str, extra_aquery_args: T.List[str], munge_command_line: Munger)
         f.write("\n]\n")
 
 
-def generate_exec_root(exec_root: Path) -> None:
-    assert exec_root.absolute() != BUILD_WORKSPACE_DIRECTORY.absolute()
-    assert exec_root.absolute() != "/"
-    relative_to_build = (
-        exec_root.absolute().relative_to(BUILD_WORKSPACE_DIRECTORY / "build").absolute()
-    )
-    assert not relative_to_build.parts[0].startswith("..")
+def generate_exec_root() -> Path:
+    """Build things in the source tree, add a symlink to external."""
+    exec_root = BUILD_WORKSPACE_DIRECTORY.absolute()
+    (exec_root / "external").unlink(missing_ok=True)
+    assert (exec_root / "bazel-out").is_symlink(), "bazel-out must exist and be a symlink"
+    (exec_root / "external").symlink_to(BUILD_WORKSPACE_DIRECTORY / "bazel-out/../../../external")
 
-    shutil.rmtree(exec_root, ignore_errors=True)
-    exec_root.mkdir(parents=True, exist_ok=True)
-    build_path = BUILD_WORKSPACE_DIRECTORY / "build"
-    (exec_root / "bazel-out").symlink_to(build_path / "bazel-out")
-    (exec_root / "external").symlink_to(build_path / "bazel-out/../../../external")
-    for entry in BUILD_WORKSPACE_DIRECTORY.iterdir():
-        if entry.name == "build":
-            continue
-        (exec_root / entry.name).symlink_to(entry)
+    return exec_root
 
 
 def run_aquery(target_label: str, extra_args: T.List[str]) -> ActionGraphContainer:
