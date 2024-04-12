@@ -1,0 +1,75 @@
+# Pyright (i.e. pylance) is the Python static analysis tool used by VSCode by default.
+[tool.pyright]
+exclude = [
+  "build",
+  "**/bazel-bin",
+  "**/bazel-bazel-compile-commands",
+  "**/bazel-testlogs",
+  "**/external",
+  "example",
+  "**/node_modules",
+  ".yarn",
+  "**/__pycache__",
+  ".git",
+  ".cache",
+  ".ruff_cache",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+# Respect the exclusion list even for lists of files passed via CLI
+# Useful to keep consistent between calls to lint_modified, lint_py_files, and "." in CI
+force-exclude = true
+
+exclude = [
+  # Performance
+  "build",
+  "bazel-out",
+  "**/node_modules",
+  "**/__pycache__",
+  ".git",
+  ".cache",
+  "external",
+
+  "bazel_protos",
+]
+
+[tool.ruff.lint]
+preview = true
+
+select = [
+  "I",      # isort
+  "E4",     # pycodestyle - ERROR - Imports - E401, E402
+  "E7",     # pycodestyle - ERROR - Statements - E701-E743
+  "E9",     # pycodestyle - ERROR - Runtime - E901, E902
+  "F",      # pyflakes - ALL - F401-F901
+  "RUF100", # unused-noqa
+  "PLR",    # pylint - refactor
+  "PLC",    # pylint - convention
+  "PLE",    # pylint - error
+  "PLW",    # pylint - warning
+]
+
+[tool.ruff.lint.isort]
+section-order = [
+  "future",
+  "standard-library",
+  "third-party",
+  "known-generated",
+  "first-party",
+  "local-folder",
+]
+
+[tool.ruff.lint.isort.sections]
+known-generated = [
+  "bazel_protos",
+]
+
+[tool.ruff.lint.pylint]
+max-args = 10
+max-branches = 20
+max-locals = 20
+max-public-methods = 100
+max-returns = 10
