@@ -1,0 +1,7 @@
+module(name = "main", version="0.0.0")
+
+bazel_dep(name = "bazel_compile_commands")
+local_path_override(
+    module_name = "bazel_compile_commands",
+    path = "../",
+)

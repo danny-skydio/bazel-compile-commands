@@ -7,5 +7,5 @@ py_library(
         "build_pb2.py",
     ],
     visibility = ["//visibility:public"],
-    deps = ["@com_google_protobuf//:protobuf_python"],
+    deps = ["@protobuf//:protobuf_python"],
 )
