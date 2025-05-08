@@ -1,10 +1,7 @@
 # bazel-compile-commands
-Another bazel compile_commands.json extractor.
-
-This is not an officially supported Skydio product in any way.
 
 ## Usage
-See [releases](https://github.com/danny-skydio/bazel-compile-commands/releases) for install information.
+See [releases](https://github.com/wolfd/bazel-compile-commands/releases) for install information.
 
 If you're using the [VS Code clangd plugin](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd), you may want to experiment with this option in .vscode/settings.json:
 ```
