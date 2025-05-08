@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Zip Folder
-        run: zip -r ${{ github.event.repository.name }}.zip . -x '*/.git/*'
+        run: git archive -o ${{ github.event.repository.name }}.zip -9 HEAD
 
       - name: Release
         uses: softprops/action-gh-release@v2
