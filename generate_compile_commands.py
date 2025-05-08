@@ -1,4 +1,3 @@
-# aclint: py3
 """
 Yet another compile_commands.json generator for Bazel.
 
@@ -31,7 +30,7 @@ try:
 except ImportError:
     argcomplete = None
 try:
-    from tqdm import tqdm
+    from tqdm import tqdm # type: ignore
 except ImportError:
     tqdm = None
 
@@ -189,7 +188,7 @@ class ActionGraph:
         depset_id: int,
         visited: T.Optional[T.Set[int]],
         depth: int = 0,
-        depth_limit: int = None,
+        depth_limit: T.Optional[int] = None,
     ) -> T.Iterable[Artifact]:
         if visited is not None:
             if depset_id in visited:
@@ -289,7 +288,7 @@ def _debug_skipped(
 def process_actions(
     aquery_output: ActionGraphContainer,
     munge_command_line: Munger,
-    progress: T.Callable[[float], None] = None,
+    progress: T.Optional[T.Callable[[T.Optional[float]], T.Optional[bool]]] = None,
 ) -> T.Iterable[CompileCommand]:
     """
     Breadth-first search through action inputs.

@@ -11,9 +11,19 @@ If you're using the [VS Code clangd plugin](https://marketplace.visualstudio.com
   ],
 ```
 
-To run, use `bazel run @bazel_compile_commands//:generate_compile_commands -- //...`
+To run, use `bazel run @bazel_compile_commands//:generate_compile_commands -- <optional query pattern>`
+
+Consider adding an alias to your root BUILD.bazel:
+```
+alias(
+    name = "compile_commands",
+    actual = "@bazel_compile_commands//:generate_compile_commands",
+)
+```
+And then all you need to do is run `bazel run compile_commands`
 
 You may find in large repos that `//...` is too much, and you need to run it on a subset of your repo.
+If you don't provide a specific query we default to `//... except attr(tags, '\bmanual\b', //...)` which will avoid looking at targets that are tagged as manual.
 See the [bazel aquery docs](https://bazel.build/query/aquery) for more information on how to use aquery.
 The query is wrapped with `deps()`, but filtered down to `CppCompile` and `Middleman` actions.
 

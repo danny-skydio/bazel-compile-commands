@@ -8,6 +8,6 @@ cc_binary(
 )
 
 alias(
-    name = "generate_compile_commands",
+    name = "compile_commands",
     actual = "@bazel_compile_commands//:generate_compile_commands",
 )
